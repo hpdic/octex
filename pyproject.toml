@@ -66,6 +66,7 @@ ignore = ["E702", "E741"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]  # the CPU tests import the package from the checkout
 markers = [
     "gpu: needs a CUDA GPU (compute capability 8.0 or newer)",
     "slow: takes more than a minute",
