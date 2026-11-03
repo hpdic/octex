@@ -5,8 +5,8 @@
 [![PyPI](https://img.shields.io/pypi/v/octex)](https://pypi.org/project/octex/)
 [![OctEx paper](https://img.shields.io/badge/OctEx%20paper-arXiv%3A2611.02556-b31b1b.svg)](https://arxiv.org/abs/2611.02556)
 
-octex (Octa Explosion) is billion-scale approximate nearest-neighbor search on NVIDIA GPUs by precomputed lattice
-neighbor lists. It holds hundreds of randomly projected copies of the dataset in GPU memory. Every copy rounds its
+octex is the open-source implementation of OctEx (Octa Explosion), billion-scale approximate nearest-neighbor search
+on NVIDIA GPUs by precomputed lattice neighbor lists. It holds hundreds of randomly projected copies of the dataset in GPU memory. Every copy rounds its
 vectors to the eight-dimensional E8 lattice and stores, for every populated cell, the list of vectors nearest to its
 center. A query reads the lists of its cells in all copies at once and then, in a fixed number of waves, the precomputed
 neighbor lists of its best hits. An int8 sketch ranks every candidate before one exact fp16 rerank, and the whole search
