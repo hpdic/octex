@@ -7,7 +7,8 @@ of queries with one CUDA graph per GPU. [design.md](design.md) describes the alg
 ## Installation
 
 ```bash
-pip install .            # from a checkout: Linux, Python >= 3.11, CUDA 12, compute capability >= 8.0
+pip install octex        # Linux, Python >= 3.11, CUDA 12, compute capability >= 8.0
+pip install .            # or from a checkout
 ```
 
 The build compiles the CUDA library and the Python extension against the `libcuvs-cu12` 26.10 wheel, which pip

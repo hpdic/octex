@@ -37,11 +37,13 @@ throughput fronts and the other baselines.
 ## Installation
 
 ```bash
-pip install .            # Linux, Python >= 3.11, CUDA 12, an NVIDIA GPU of compute capability >= 8.0
+pip install octex        # Linux, Python >= 3.11, CUDA 12, an NVIDIA GPU of compute capability >= 8.0
+pip install .            # or from a checkout
 ```
 
-The build compiles the CUDA library against the `libcuvs-cu12` 26.10 wheel, which pip installs with its
-dependencies. The package needs only numpy; CuPy and PyTorch arrays are accepted when installed.
+The wheels on PyPI hold the CUDA library for compute capabilities 8.0 to 12.0 and take cuVS, RAFT, RMM, and the CUDA
+math libraries from the `libcuvs-cu12` 26.10 wheel and its dependencies. A build from a checkout compiles the CUDA
+library against the same wheel. The package needs only numpy; CuPy and PyTorch arrays are accepted when installed.
 
 ## Usage
 
