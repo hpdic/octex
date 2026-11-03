@@ -13,19 +13,19 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <algorithm>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
-#include <stdexcept>
-#include <algorithm>
-#include <optional>
-#include <mutex>
-#include <map>
 #include <filesystem>
+#include <map>
 #include <memory>
-#include <utility>
+#include <mutex>
+#include <optional>
+#include <stdexcept>
 #include <string>
 #include <thread>
+#include <utility>
 #include <vector>
 
 namespace cuvs::neighbors::octex::detail {
@@ -125,7 +125,7 @@ inline void parallel_pread(int fd, char* dst, size_t bytes, size_t offset, int t
 {
   constexpr size_t kChunk = size_t{64} << 20;
   size_t chunks           = (bytes + kChunk - 1) / kChunk;
-  threads                 = static_cast<int>(std::max<size_t>(1, std::min<size_t>(threads, chunks)));
+  threads = static_cast<int>(std::max<size_t>(1, std::min<size_t>(threads, chunks)));
   std::vector<std::thread> th;
   std::vector<int> bad(threads, 0);
   for (int t = 0; t < threads; t++)
@@ -153,7 +153,7 @@ inline void parallel_pwrite(int fd, const char* src, size_t bytes, size_t offset
 {
   constexpr size_t kChunk = size_t{64} << 20;
   size_t chunks           = (bytes + kChunk - 1) / kChunk;
-  threads                 = static_cast<int>(std::max<size_t>(1, std::min<size_t>(threads, chunks)));
+  threads = static_cast<int>(std::max<size_t>(1, std::min<size_t>(threads, chunks)));
   std::vector<std::thread> th;
   std::vector<int> bad(threads, 0);
   for (int t = 0; t < threads; t++)
@@ -184,10 +184,10 @@ inline void prefetch_file(std::string const& path, int threads = 16)
   if (fd < 0) return;
   struct stat st{};
   ::fstat(fd, &st);
-  size_t bytes = static_cast<size_t>(st.st_size);
+  size_t bytes            = static_cast<size_t>(st.st_size);
   constexpr size_t kChunk = size_t{64} << 20;
   size_t chunks           = (bytes + kChunk - 1) / kChunk;
-  threads                 = static_cast<int>(std::max<size_t>(1, std::min<size_t>(threads, chunks)));
+  threads = static_cast<int>(std::max<size_t>(1, std::min<size_t>(threads, chunks)));
   std::vector<std::thread> th;
   for (int t = 0; t < threads; t++)
     th.emplace_back([&, t] {

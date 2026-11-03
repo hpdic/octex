@@ -26,10 +26,10 @@
 #include <chrono>
 #include <cstdio>
 #include <filesystem>
-#include <thread>
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace cuvs::neighbors::octex {
@@ -190,11 +190,11 @@ void build_impl(index_params const& params,
 
     // the cells of every copy; GPU r builds copies [C r / G, C (r + 1) / G)
     cell_params cp;
-    cp.blocks      = b;
-    cp.spacings    = params.spacings;
-    cp.list_len    = l;
-    cp.min_cell    = params.min_cell;
-    cp.log_buckets = params.log_buckets;
+    cp.blocks       = b;
+    cp.spacings     = params.spacings;
+    cp.list_len     = l;
+    cp.min_cell     = params.min_cell;
+    cp.log_buckets  = params.log_buckets;
     cp.exact_lists  = params.exact_lists;
     cp.list_probes  = params.list_probes;
     cp.member_lists = params.member_lists;
@@ -236,24 +236,24 @@ void build_impl(index_params const& params,
       std::vector<std::thread> th;
       for (int r = 0; r < nt; r++)
         th.emplace_back([&, r] {
-        for (int c = r; c < C; c += nt) {
-          int64_t at = 0;
-          for (int j = 0; j < L; j++) {
-            int64_t* o = mkeys.data() + (size_t(c) * L + j) * mmax;
-            std::copy_n(cells[c].keys.data() + at, cells[c].cells[j], o);
-            std::fill(o + cells[c].cells[j], o + mmax, int64_t{0});
-            at += cells[c].cells[j];
+          for (int c = r; c < C; c += nt) {
+            int64_t at = 0;
+            for (int j = 0; j < L; j++) {
+              int64_t* o = mkeys.data() + (size_t(c) * L + j) * mmax;
+              std::copy_n(cells[c].keys.data() + at, cells[c].cells[j], o);
+              std::fill(o + cells[c].cells[j], o + mmax, int64_t{0});
+              at += cells[c].cells[j];
+            }
+            std::copy_n(cells[c].offsets.data(),
+                        int64_t(L) * (T + 1),
+                        moffs.data() + size_t(c) * L * (T + 1));
+            int32_t* lo = mlists.data() + size_t(c) * lmax;
+            std::copy_n(cells[c].lists.data(), cells[c].lists.size(), lo);
+            std::fill(lo + cells[c].lists.size(), lo + lmax, int32_t{0});
+            std::vector<int64_t>().swap(cells[c].keys);
+            std::vector<int32_t>().swap(cells[c].offsets);
+            std::vector<int32_t>().swap(cells[c].lists);
           }
-          std::copy_n(cells[c].offsets.data(),
-                      int64_t(L) * (T + 1),
-                      moffs.data() + size_t(c) * L * (T + 1));
-          int32_t* lo = mlists.data() + size_t(c) * lmax;
-          std::copy_n(cells[c].lists.data(), cells[c].lists.size(), lo);
-          std::fill(lo + cells[c].lists.size(), lo + lmax, int32_t{0});
-          std::vector<int64_t>().swap(cells[c].keys);
-          std::vector<int32_t>().swap(cells[c].offsets);
-          std::vector<int32_t>().swap(cells[c].lists);
-        }
         });
       for (auto& x : th)
         x.join();
@@ -305,14 +305,21 @@ void build_impl(index_params const& params,
       write_npy(file("sketch_scale.npy"), scale.data(), {int64_t(S)});
       if (behind) {
         mcodes = std::move(codes);
-        register_mem_array(file("sketch.npy"), mcodes.data(), {n, int64_t(S)}, "|i1", mcodes.size());
+        register_mem_array(
+          file("sketch.npy"), mcodes.data(), {n, int64_t(S)}, "|i1", mcodes.size());
         // the paths by value: with a table build to follow, this build returns before the writes
         writer = std::thread([&wb,
                               fk = file("keys.npy"),
                               fo = file("offsets.npy"),
                               fl = file("lists.npy"),
                               fs = file("sketch.npy"),
-                              C, L, mmax, T, lmax, n, S] {
+                              C,
+                              L,
+                              mmax,
+                              T,
+                              lmax,
+                              n,
+                              S] {
           try {
             write_npy(fk, wb.keys.data(), {C, L, mmax});
             write_npy(fo, wb.offs.data(), {C, L, T + 1});

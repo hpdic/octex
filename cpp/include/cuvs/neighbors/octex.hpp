@@ -113,7 +113,8 @@ struct search_params : cuvs::neighbors::search_params {
   int batch = 10000;
   /** Rank start points by the sketch and rerank exactly only at the end (billion scale). */
   bool sketch_rank = false;
-  /** Sketch-rank mode: kept entries reranked exactly at the end (0: the sketch order, no rerank). */
+  /** Sketch-rank mode: kept entries reranked exactly at the end (0: the sketch order, no rerank).
+   */
   int final_rerank = 32;
   /**
    * Ablation: the gather splits the entries of all lists of a query evenly over the block (false:

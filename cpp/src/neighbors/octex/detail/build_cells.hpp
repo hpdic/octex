@@ -21,9 +21,9 @@ namespace cuvs::neighbors::octex::detail {
 struct cell_params {
   int blocks = 4;
   std::vector<float> spacings{2.0f, 2.5f, 3.2f, 4.0f, 5.0f};
-  int list_len     = 64;
-  int min_cell     = 1;
-  int log_buckets  = 20;
+  int list_len      = 64;
+  int min_cell      = 1;
+  int log_buckets   = 20;
   bool exact_lists  = false;
   int list_probes   = 16;
   bool member_lists = false;  // lists from the members of each cell (index_params::member_lists)

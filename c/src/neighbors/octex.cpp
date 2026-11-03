@@ -37,20 +37,20 @@ auto to_cpp(cuvsOctexIndexParams const& p) -> octex::index_params
   if (p.spacings != nullptr && p.n_spacings > 0) {
     out.spacings.assign(p.spacings, p.spacings + p.n_spacings);
   }
-  out.list_len        = p.list_len;
-  out.min_cell        = p.min_cell;
-  out.log_buckets     = p.log_buckets;
-  out.sketch_width    = p.sketch_width;
-  out.table_len       = p.table_len;
-  out.reverse_edges   = p.reverse_edges;
-  out.exact_lists     = p.exact_lists;
+  out.list_len           = p.list_len;
+  out.min_cell           = p.min_cell;
+  out.log_buckets        = p.log_buckets;
+  out.sketch_width       = p.sketch_width;
+  out.table_len          = p.table_len;
+  out.reverse_edges      = p.reverse_edges;
+  out.exact_lists        = p.exact_lists;
   out.list_probes        = p.list_probes;
   out.member_lists       = p.member_lists;
   out.exact_table_max    = p.exact_table_max;
   out.table_passes       = p.table_passes;
   out.table_sketch_order = p.table_sketch_order;
   out.write_behind       = p.write_behind;
-  out.seed            = p.seed;
+  out.seed               = p.seed;
   if (p.devices != nullptr && p.n_devices > 0) {
     out.devices.assign(p.devices, p.devices + p.n_devices);
   }

@@ -620,11 +620,11 @@ inline auto searched_table_host_bytes(int64_t n, int64_t d, int k, bool vectors_
   table_plan tp(k);
   const int kin   = tp.rule.kin;
   const int64_t q = std::min(n, tp.chunk);
-  size_t vectors  = size_t(n) * d * sizeof(half);                       // pinned, vectors on host
-  size_t forward  = size_t(n) * kin * sizeof(int32_t);                  // pinned forward rows
-  if (vectors_pinned) vectors = 0;  // the base, locked in place by its owner
-  size_t merged   = size_t(n) * k * sizeof(int32_t);                    // merged rows
-  size_t buffers  = 2 * size_t(q) * d * (sizeof(half) + sizeof(float))  // two query chunks
+  size_t vectors  = size_t(n) * d * sizeof(half);       // pinned, vectors on host
+  size_t forward  = size_t(n) * kin * sizeof(int32_t);  // pinned forward rows
+  if (vectors_pinned) vectors = 0;                      // the base, locked in place by its owner
+  size_t merged  = size_t(n) * k * sizeof(int32_t);     // merged rows
+  size_t buffers = 2 * size_t(q) * d * (sizeof(half) + sizeof(float))            // two query chunks
                    + size_t(q) * (kin + 1) * (sizeof(int64_t) + sizeof(float));  // search output
   return vectors + forward + merged + buffers;  // one load for all passes: all held at the merges
 }
@@ -672,7 +672,7 @@ inline void searched_table(std::vector<int> const& devices,
   RAFT_EXPECTS(k >= 1 && kq < n, "octex: table_len too large for the dataset");
 
   // host memory: refuse a plan above 70% of the available memory
-  auto vm            = find_mem_array(vectors_path);
+  auto vm           = find_mem_array(vectors_path);
   size_t plan_bytes = searched_table_host_bytes(n, d, k, vm && vm->pinned);
   size_t avail      = host_available_bytes();
   build_log(
@@ -757,7 +757,7 @@ inline void searched_table(std::vector<int> const& devices,
       const int64_t q = std::min(n, tp.chunk);
       // pinned queries and results: copies from pageable memory would block the host on every
       // batch and serialize the GPUs
-      hbuf qfb[2] = {hbuf(size_t(q) * d * sizeof(float)), hbuf(size_t(q) * d * sizeof(float))};
+      hbuf qfb[2]  = {hbuf(size_t(q) * d * sizeof(float)), hbuf(size_t(q) * d * sizeof(float))};
       float* qf[2] = {static_cast<float*>(qfb[0].ptr), static_cast<float*>(qfb[1].ptr)};
       std::vector<half> hb[2];
       hbuf nbb(size_t(q) * kq * sizeof(int64_t)), ndb(size_t(q) * kq * sizeof(float));
@@ -767,8 +767,7 @@ inline void searched_table(std::vector<int> const& devices,
       std::exception_ptr rerr;
       auto read_chunk = [&](int64_t r0, int slot) {
         try {
-          read_rows_as_float(
-            fd, vhdr.header_len, r0, std::min(q, n - r0), d, hb[slot], qf[slot]);
+          read_rows_as_float(fd, vhdr.header_len, r0, std::min(q, n - r0), d, hb[slot], qf[slot]);
         } catch (...) {
           rerr = std::current_exception();
         }

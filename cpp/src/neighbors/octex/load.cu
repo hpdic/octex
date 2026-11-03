@@ -13,13 +13,13 @@
 #include <raft/core/error.hpp>
 
 #include <algorithm>
+#include <chrono>
+#include <cstdio>
 #include <cstring>
 #include <exception>
 #include <fstream>
 #include <map>
 #include <sstream>
-#include <chrono>
-#include <cstdio>
 #include <thread>
 #include <vector>
 
@@ -160,7 +160,7 @@ auto map_host(std::string const& path) -> host_array
 {
   host_array h;
   if (auto m = detail::find_mem_array(path)) {  // held in memory by the build
-    if (m->pinned) {  // already page-locked by its owner: read in place
+    if (m->pinned) {                            // already page-locked by its owner: read in place
       h.ptr        = m->data;
       h.registered = false;
       return h;
@@ -323,7 +323,6 @@ auto load(raft::resources const& res, std::string const& path, load_params const
     for (auto const& f : pre)
       detail::prefetch_file(f);
   }
-
 
   // host arrays first: every GPU reads them through one pointer
   if (params.vectors_on_host) ix.host_vectors = map_host(file("vectors"));

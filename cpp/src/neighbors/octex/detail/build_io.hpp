@@ -85,7 +85,7 @@ class npy_writer {
   std::string path_;
   FILE* f_      = nullptr;
   int64_t want_ = 0, done_ = 0;
-  size_t pos_   = 0;  // file offset of the next element
+  size_t pos_ = 0;  // file offset of the next element
 };
 
 }  // namespace cuvs::neighbors::octex::detail

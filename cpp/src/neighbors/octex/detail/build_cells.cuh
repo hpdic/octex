@@ -200,7 +200,7 @@ static __global__ void member_list_kernel(const float* y,
     const int32_t* rows = sidx[q] + s[q * m + i];
     int cnt             = c[q * m + i];
     for (int t = lane; t < cnt; t += 32) {
-      int32_t r = rows[t];
+      int32_t r      = rows[t];
       const float* v = y + int64_t(r) * w;
       float dd       = 0.f;
       for (int k = 0; k < w; k++) {
@@ -227,7 +227,7 @@ static __global__ void member_list_kernel(const float* y,
   int head        = 0;
   int32_t* out    = lists + i * l;
   int32_t nearest = -1, last = -1;
-  int k           = 0;
+  int k = 0;
   for (int round = 0; round < 32 * l && k < l; round++) {
     float hv = head < l ? bd[head] : INFINITY;
     int hl   = lane;
@@ -252,8 +252,8 @@ static __global__ void member_list_kernel(const float* y,
     if (lane == 0) out[k] = nearest;
 }
 
-inline auto make_level_cells(
-  raft::resources const& res, const float* y, int64_t n, int b, float f) -> level_cells
+inline auto make_level_cells(raft::resources const& res, const float* y, int64_t n, int b, float f)
+  -> level_cells
 {
   cudaStream_t stream = raft::resource::get_cuda_stream(res).get();
   rmm::device_uvector<int64_t> h(n, stream), hs(n, stream);
@@ -866,8 +866,8 @@ inline auto full_build_bytes(int64_t n, int64_t d, int w, bool exact_lists, size
 }
 
 /**
- * The cells of one copy with member lists (cell_params::member_lists), streamed: every row's hash and
- * squared distance to its cell center at every level in passes over the dataset, then per level
+ * The cells of one copy with member lists (cell_params::member_lists), streamed: every row's hash
+ * and squared distance to its cell center at every level in passes over the dataset, then per level
  * the rows sorted by distance and stably by hash, so that each run of a cell starts with its l
  * rows nearest to the center. No index over the projection, no centers, no gathers.
  */
@@ -1029,10 +1029,10 @@ inline void build_cells_stream(raft::resources const& res,
     cudaMemcpyAsync(d_mean.data(), mean, d * sizeof(float), cudaMemcpyHostToDevice, stream));
   rmm::device_uvector<float> a_buf(kProjectChunk * d, stream);
   rmm::device_uvector<float> ychunk(st.capacity() * w, stream);
-  const char* env_ranges = std::getenv("OCTEX_BUILD_RANGES");
-  const bool member_mode = params.member_lists;
-  int member_G           = 0;
-  const int64_t member_cap = st.capacity();
+  const char* env_ranges                                   = std::getenv("OCTEX_BUILD_RANGES");
+  const bool member_mode                                   = params.member_lists;
+  int member_G                                             = 0;
+  const int64_t member_cap                                 = st.capacity();
   std::function<const half*(int64_t, int64_t)> member_rows = [&](int64_t r0, int64_t m) {
     return st.rows(r0, m);
   };
@@ -1050,9 +1050,21 @@ inline void build_cells_stream(raft::resources const& res,
       d_shift.data(), shift + int64_t(c) * w, w * sizeof(float), cudaMemcpyHostToDevice, stream));
 
     if (member_mode) {
-      stream_member_copy(
-        res, params, member_rows, member_cap, n, d, d_mean.data(), d_u.data(), d_shift.data(), a_buf.data(), ychunk.data(), member_G, cc);
-      build_log("  copy %d (streamed, member lists): %.1f s; cells per level", c, seconds_since(tc));
+      stream_member_copy(res,
+                         params,
+                         member_rows,
+                         member_cap,
+                         n,
+                         d,
+                         d_mean.data(),
+                         d_u.data(),
+                         d_shift.data(),
+                         a_buf.data(),
+                         ychunk.data(),
+                         member_G,
+                         cc);
+      build_log(
+        "  copy %d (streamed, member lists): %.1f s; cells per level", c, seconds_since(tc));
       for (auto m : cc.cells)
         build_log(" %lld", static_cast<long long>(m));
       build_log("\n");
