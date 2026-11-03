@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/hpdic/octex/actions/workflows/ci.yml/badge.svg)](https://github.com/hpdic/octex/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![PyPI](https://img.shields.io/pypi/v/octex.svg)](https://pypi.org/project/octex/)
+[![PyPI](https://img.shields.io/pypi/v/octex)](https://pypi.org/project/octex/)
 [![OctEx paper](https://img.shields.io/badge/OctEx%20paper-arXiv%3A2611.02556-b31b1b.svg)](https://arxiv.org/abs/2611.02556)
 
 octex (Octa Explosion) is billion-scale approximate nearest-neighbor search on NVIDIA GPUs by precomputed lattice
