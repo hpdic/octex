@@ -1,0 +1,48 @@
+{
+ "bigann100M": {
+  "copies_s": 1881.9,
+  "table_s": 797.9
+ },
+ "bigann1B": {
+  "copies_s": 23134.4,
+  "table_s": 7588.2
+ },
+ "deep100M": {
+  "copies_s": 2297.5,
+  "table_s": 771.0
+ },
+ "deep100M_fwd": {
+  "table_s": 857.1
+ },
+ "deep10M": {
+  "copies_s": 356.1,
+  "table_s": 346.8
+ },
+ "deep1B": {
+  "copies_s": 23736.0,
+  "table_s": 7510.6
+ },
+ "deep1B_l32": {
+  "copies_s": 23797.5
+ },
+ "dinov2": {
+  "copies_s": 114.0,
+  "table_s": 16.9
+ },
+ "dinov2_exact": {
+  "copies_s": 128.5,
+  "table_s": 16.9
+ },
+ "gist": {
+  "copies_s": 1430.7,
+  "table_s": 12.4
+ },
+ "msmarco": {
+  "copies_s": 264.8,
+  "table_s": 768.0
+ },
+ "sift1m": {
+  "copies_s": 503.9,
+  "table_s": 4.3
+ }
+}

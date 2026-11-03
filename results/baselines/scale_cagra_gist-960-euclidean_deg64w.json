@@ -1,0 +1,118 @@
+{
+ "dataset": "gist-960-euclidean",
+ "method": "cagra",
+ "args": {
+  "dataset": "gist-960-euclidean",
+  "method": "cagra",
+  "width": "2,4",
+  "cagra_fp16": 0,
+  "nlists": 2048,
+  "pqdim": 0,
+  "nprobes": "16,32,64,128,256",
+  "ratio": 4,
+  "read": "8,12,16,24,32",
+  "margin": "0.65,0.7,0.75,0.8",
+  "itopk": "32,64,128,256,512",
+  "degree": 64,
+  "gpus": "4",
+  "reps": 5,
+  "chunk": 10000,
+  "tag": "_deg64w",
+  "blocks": 4,
+  "spacings": "1.25,1.6,2.0,2.5,3.2",
+  "copies": 1000,
+  "rerank": 128,
+  "top": 64,
+  "sketch": 64,
+  "logT": 20,
+  "cap": 256,
+  "threads": 256,
+  "tau": 0,
+  "l": 32,
+  "probes": "2.0,2.5,3.2,4.0,5.0",
+  "parts": 4,
+  "shard": 0
+ },
+ "rows": [
+  {
+   "itopk": 32,
+   "width": 2,
+   "gpus": 4,
+   "recall": 0.8978,
+   "seconds": 0.0051288604736328125,
+   "qps": 194975.08367422834
+  },
+  {
+   "itopk": 32,
+   "width": 4,
+   "gpus": 4,
+   "recall": 0.9583,
+   "seconds": 0.0068700313568115234,
+   "qps": 145559.74318931112
+  },
+  {
+   "itopk": 64,
+   "width": 2,
+   "gpus": 4,
+   "recall": 0.897,
+   "seconds": 0.005125761032104492,
+   "qps": 195092.98106888693
+  },
+  {
+   "itopk": 64,
+   "width": 4,
+   "gpus": 4,
+   "recall": 0.9577,
+   "seconds": 0.00685429573059082,
+   "qps": 145893.9093533688
+  },
+  {
+   "itopk": 128,
+   "width": 2,
+   "gpus": 4,
+   "recall": 0.9581,
+   "seconds": 0.006931304931640625,
+   "qps": 144272.97743533296
+  },
+  {
+   "itopk": 128,
+   "width": 4,
+   "gpus": 4,
+   "recall": 0.9575,
+   "seconds": 0.007043123245239258,
+   "qps": 141982.46504857656
+  },
+  {
+   "itopk": 256,
+   "width": 2,
+   "gpus": 4,
+   "recall": 0.9858,
+   "seconds": 0.010645389556884766,
+   "qps": 93937.37961926092
+  },
+  {
+   "itopk": 256,
+   "width": 4,
+   "gpus": 4,
+   "recall": 0.9858,
+   "seconds": 0.010555267333984375,
+   "qps": 94739.42898445971
+  },
+  {
+   "itopk": 512,
+   "width": 2,
+   "gpus": 4,
+   "recall": 0.9971,
+   "seconds": 0.017186403274536133,
+   "qps": 58185.53097038219
+  },
+  {
+   "itopk": 512,
+   "width": 4,
+   "gpus": 4,
+   "recall": 0.9966,
+   "seconds": 0.017170429229736328,
+   "qps": 58239.66230664556
+  }
+ ]
+}

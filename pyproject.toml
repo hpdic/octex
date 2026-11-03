@@ -1,0 +1,72 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026, Dongfang Zhao <dzhao@cs.washington.edu>
+# SPDX-License-Identifier: Apache-2.0
+#
+[build-system]
+requires = [
+    "scikit-build-core>=0.11",
+    "nanobind>=2.4",
+    "libcuvs-cu12==26.10.*",
+    "nvidia-nvjitlink-cu12>=12.9",
+]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "octex"
+version = "0.1.0"
+description = "Billion-scale vector search on NVIDIA GPUs by precomputed lattice neighbor lists"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [{name = "Dongfang Zhao", email = "dzhao@cs.washington.edu"}]
+license-files = ["LICENSE", "NOTICE"]
+dependencies = ["numpy>=1.24", "libcuvs-cu12==26.10.*", "nvidia-nvjitlink-cu12>=12.9"]
+
+keywords = ["nearest neighbor search", "vector search", "approximate search", "GPU", "CUDA", "cuVS"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Database :: Database Engines/Servers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/hpdic/octex"
+
+[project.optional-dependencies]
+cupy = ["cupy-cuda12x>=13"]
+test = ["pytest>=8", "cupy-cuda12x>=13"]
+dev = ["pytest>=8", "cupy-cuda12x>=13", "ruff==0.6.9"]
+
+[tool.scikit-build]
+cmake.source-dir = "python"
+cmake.version = ">=4.0"
+cmake.build-type = "Release"
+ninja.make-fallback = false
+wheel.packages = ["octex"]
+wheel.exclude = ["octex/__pycache__"]
+sdist.exclude = ["docs", ".github", "build", "build-*", "bench", "paper", "results"]
+
+[tool.scikit-build.cmake.define]
+CMAKE_CUDA_ARCHITECTURES = "80;90"
+
+[tool.ruff]
+extend-exclude = ["paper", "bench/billion"]  # the paper figure scripts and the as-run billion-scale scripts
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E702", "E741"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "gpu: needs a CUDA GPU (compute capability 8.0 or newer)",
+    "slow: takes more than a minute",
+]

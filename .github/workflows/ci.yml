@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026, Dongfang Zhao <dzhao@cs.washington.edu>
+# SPDX-License-Identifier: Apache-2.0
+#
+# Lint and checks that need no GPU: the package imports without its CUDA extension, the parameter checks raise the
+# documented errors, and the source distribution holds the whole build. GPU tests run with `pytest -m gpu` on a
+# machine with a CUDA GPU.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install ruff==0.6.9
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pip install clang-format==20.1.8
+      - name: clang-format
+        run: git ls-files 'cpp/*.cu' 'cpp/*.cuh' 'cpp/*.hpp' 'c/*.cpp' 'c/*.hpp' 'c/*.h' 'c/*.c' 'c/*.cu' 'python/*.cpp' 'examples/*.cu' 'examples/*.c' | xargs clang-format --dry-run --Werror
+
+  cpu-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "${{ matrix.python }}"}
+      - run: pip install numpy pytest build scikit-build-core nanobind
+      # the package imports from the checkout without its CUDA extension, which needs the CUDA compiler
+      - run: pytest -m "not gpu" -q
+      - name: source distribution
+        run: |
+          python -m build --sdist --no-isolation
+          tar tzf dist/octex-0.1.0.tar.gz | grep -q python/src/core.cpp
+          tar tzf dist/octex-0.1.0.tar.gz | grep -q cpp/include/cuvs/neighbors/octex.hpp

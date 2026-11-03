@@ -1,0 +1,63 @@
+{
+ "deep1B_standard": {
+  "read": 153.9,
+  "copies": 23736.0,
+  "write": 83.5,
+  "sketch": 380.1,
+  "table_v1_load": 646.1,
+  "table_v1_search": 1359.2,
+  "wall": 26365.0,
+  "table_v1_reverse": 212.0,
+  "table_v2_load": 462.3,
+  "table_v2_search": 1826.0,
+  "table_v2_reverse": 229.6,
+  "table_v3_load": 588.1,
+  "table_v3_search": 1957.3,
+  "table_v3_reverse": 205.3
+ },
+ "bigann1B_standard": {
+  "read": 478.8,
+  "copies": 23134.4,
+  "write": 79.4,
+  "sketch": 412.6,
+  "table_v1_load": 423.7,
+  "table_v1_search": 1375.5,
+  "table_v1_reverse": 257.6,
+  "table_v2_load": 551.3,
+  "table_v2_search": 1947.8,
+  "table_v2_reverse": 265.3,
+  "table_v3_load": 401.3,
+  "table_v3_search": 2103.6,
+  "table_v3_reverse": 240.1
+ },
+ "deep1B_fast": {
+  "read": 56.7,
+  "copies": 694.1,
+  "write": 8.2,
+  "sketch": 129.7,
+  "lock": 21.0,
+  "table_v1_load": 127.9,
+  "table_v1_search": 371.6,
+  "table_v1_reverse": 109.1,
+  "table_v2_load": 12.4,
+  "table_v2_search": 847.2,
+  "table_v2_reverse": 222.3,
+  "write_behind_wait": 0.0,
+  "wall": 2659.26
+ },
+ "bigann1B_fast": {
+  "read": 54.1,
+  "copies": 843.3,
+  "write": 6.1,
+  "sketch": 145.4,
+  "lock": 32.7,
+  "table_v1_load": 101.2,
+  "table_v1_search": 375.3,
+  "table_v1_reverse": 102.5,
+  "table_v2_load": 14.6,
+  "table_v2_search": 868.6,
+  "table_v2_reverse": 203.2,
+  "write_behind_wait": 0.0,
+  "wall": 2805.2
+ }
+}

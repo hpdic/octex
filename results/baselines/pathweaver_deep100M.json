@@ -1,0 +1,53 @@
+{
+ "note": "PathWeaver on 4 H100 GPUs, 4 shards, 4 configurations of its grid; QPS from our end-to-end timer",
+ "rows": [
+  {
+   "ghost_max_iter": 1,
+   "base_max_iter": 10,
+   "iteration_prune": 0.5,
+   "neighbor_prune": 0.25,
+   "recall": 0.776,
+   "ms_e2e": 218.2807,
+   "ms_own": 216.4451,
+   "queries": 60000,
+   "qps": 274875.42416713893,
+   "gpus": 4
+  },
+  {
+   "ghost_max_iter": 1,
+   "base_max_iter": 20,
+   "iteration_prune": 0.5,
+   "neighbor_prune": 0.25,
+   "recall": 0.9378,
+   "ms_e2e": 230.5303,
+   "ms_own": 227.8178,
+   "queries": 60000,
+   "qps": 260269.4743380805,
+   "gpus": 4
+  },
+  {
+   "ghost_max_iter": 1,
+   "base_max_iter": 30,
+   "iteration_prune": 0.5,
+   "neighbor_prune": 0.25,
+   "recall": 0.9444,
+   "ms_e2e": 232.9832,
+   "ms_own": 229.0,
+   "queries": 60000,
+   "qps": 257529.2982498309,
+   "gpus": 4
+  },
+  {
+   "ghost_max_iter": 1,
+   "base_max_iter": 40,
+   "iteration_prune": 0.5,
+   "neighbor_prune": 0.25,
+   "recall": 0.9618,
+   "ms_e2e": 252.05,
+   "ms_own": 247.219,
+   "queries": 60000,
+   "qps": 238048.00634794682,
+   "gpus": 4
+  }
+ ]
+}
