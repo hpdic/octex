@@ -39,6 +39,6 @@ jobs:
       - run: pytest -m "not gpu" -q
       - name: source distribution
         run: |
-          python -m build --sdist --no-isolation
+          python -m build --sdist --no-isolation --skip-dependency-check  # an sdist needs none of the CUDA build dependencies
           tar tzf dist/octex-0.1.0.tar.gz | grep -q python/src/core.cpp
           tar tzf dist/octex-0.1.0.tar.gz | grep -q cpp/include/cuvs/neighbors/octex.hpp
